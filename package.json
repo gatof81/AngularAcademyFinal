@@ -1,0 +1,20 @@
+{
+  "name": "AngularAcademyFinal",
+  "version": "1.0.0",
+  "description": "Ecomerce Site for Angular Academy",
+  "main": "server.js",
+  "repository": "git@github.com:gatof81/AngularAcademyFinal.git",
+  "author": "Diego Ferreyra",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.15.4",
+    "jsonwebtoken": "^7.4.3",
+    "mongoose": "^4.11.8",
+    "mongoose-auto-increment": "^5.0.1",
+    "mongoose-unique-validator": "^1.0.5",
+    "morgan": "^1.8.2",
+    "nodemailer": "^4.0.1"
+  }
+}
