@@ -79,7 +79,7 @@ exports.login = (req, res) => {
 
 exports.verifyEmail = (req, res) => {
     Common.verifyToken(req, res, decoded => {
-        User.findUserUpdate(decoded.id, decoded.username, (err, user) => {
+        User.findUser(decoded.id, decoded.username, (err, user) => {
             if(err) {
                 return res.status(500).send(`something went wrong`);
             } else if (user === null) {
@@ -88,7 +88,7 @@ exports.verifyEmail = (req, res) => {
                 return res.json({message: `account is already verified.`})
             } else {
                 user.isVerified = true;
-                User.findOneAndUpdate({username: user.username}, user, (err, user) => {
+                User.findUserUpdate({username: user.username}, user, (err, user) => {
                     if(!err) {
                         return res.json({message: `account sucessfully verified`});
                     } else {
@@ -120,40 +120,82 @@ exports.newPassword = (req, res) => {
 
 exports.deleteUser = (req, res) => {
     Common.verifyToken(req, res, decoded => {
-        User.findUserByUserName(decoded.id, decoded.username, (err, user) => {
-            if (err) return res.status(500).send(`Something went wrong`);
-            else if(user.userRole === 2){
-                if(req.body.username && req.body.username !== decoded.username) {
-                    User.removeUser(req.body.username)
-                }
-            }
-            else {
-                return res.status(403).send(`You need admin access for this request.`);
-            }
-        });
+        if(req.body.username && req.body.username !== decoded.username) {
+            User.removeUser(req.body.username);
+            return res.json({message: `user successfully deleted`});
+        }
     })
 }
 
 exports.getUsers = (req, res) => {
-    Common.verifyToken(req, res, decoded => {
-        User.findUserByUserName(decoded.id, decoded.username, (err, user) => {
+    Common.verifyTokenAdmin(req, res, () => {
+        User.findAllUsers((err, users) => {
             if (err) return res.status(500).send(`Something went wrong`);
-            else if (user.userRole === 2) {
-                User.findAllUsers((err, users) => {
-                    if (err) return res.status(500).send(`Something went wrong`);
-                    else {
-                        let userMap = {};
-
-                        users.forEach(function (user) {
-                            userMap[user._id] = user;
-                        });
-                        return res.send(userMap);
-                    }
-
+            else {
+                let userMap = {};
+                users.forEach(function (user) {
+                    userMap[user._id] = user;
                 });
-            } else {
-                return res.status(403).send(`You need admin access for this request.`);
+                return res.send(userMap);
             }
         });
+    })
+};
+
+exports.updateUserAdmin = (req, res) => {
+    Common.verifyTokenAdmin(req, res, decoded => {
+        User.findUser(req.body.id, req.body.username, (err, user) => {
+            if(err) {
+                return res.status(500).send(`something went wrong`);
+            } else if (user === null) {
+                return res.status(422).send(`User not found`);
+            } else {
+
+                let userData = {
+                    username: req.body.username,
+                    isVerified: req.body.isVerified,
+                    password: req.body.password,
+                    billingAddress: req.body.billingAddress,
+                    shippingAddress: req.body.shippingAddress
+                }
+
+                User.findUserUpdate(userData, user, (err, user) => {
+                    if(!err) {
+                        return res.json({message: `account sucessfully verified`});
+                    } else {
+                        console.log(err);
+                        return res.status(500).send(`Something went wrong`);
+                    }
+                })
+            }
+        })
+    })
+};
+
+exports.updateUser = (req, res) => {
+    Common.verifyToken(req, res, decoded => {
+        User.findUser(decoded.id, decoded.username, (err, user) => {
+            if(err) {
+                return res.status(500).send(`something went wrong`);
+            } else if (user === null) {
+                return res.status(422).send(`User not found`);
+            } else {
+                let userData = {
+                    username: req.body.username,
+                    isVerified: req.body.isVerified,
+                    password: req.body.password,
+                    billingAddress: req.body.billingAddress,
+                    shippingAddress: req.body.shippingAddress
+                }
+                User.findUserUpdate(userData, user, (err, user) => {
+                    if(!err) {
+                        return res.json({message: `account sucessfully verified`});
+                    } else {
+                        console.log(err);
+                        return res.status(500).send(`Something went wrong`);
+                    }
+                })
+            }
+        })
     })
 };

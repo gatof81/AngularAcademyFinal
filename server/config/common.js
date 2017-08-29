@@ -28,7 +28,21 @@ exports.verifyToken = (req, res, callback) => {
         if (err) return res.status(500).send(`Something went wrong: ${err.message}`);
         callback(decoded);
     });
-}
+};
+
+exports.verifyTokenAdmin = (req, res, callback) => {
+    return JWT.verify(req.headers['x-access-token'], privateKey, (err, decoded) => {
+        if (err) return res.status(500).send(`Something went wrong: ${err.message}`);
+        User.findUserByUserName(decoded.id, decoded.username, (err, user) => {
+            if (err) return res.status(500).send(`Something went wrong`);
+            else if (user.userRole === 2) {
+                callback(decoded);
+            } else {
+                return res.status(403).send(`You need admin access for this request.`);
+            }
+        });
+    });
+};
 
 exports.sentMailVerificationLink = (user, token, callback) => {
     let textLink = `http://${Config.server.host}:${Config.server.port}/${Config.email.verifyEmailUrl}/${token}`;

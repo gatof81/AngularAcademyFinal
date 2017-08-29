@@ -48,6 +48,9 @@ Product.statics = {
     findByPrductID: function (id, product, callback) {
         this.findOne({ prod_name: product, _id: id}, callback);
     },
+    removeProduct: function (productid) {
+        this.findOneAndRemove({_id: productid});
+    },
     findAllProducts: function (callback) {
         this.find({}, callback);
     }
