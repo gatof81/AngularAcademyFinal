@@ -8,7 +8,6 @@ const privateKey = Config.key.privateKey;
 const async = require('async');
 
 exports.create = (req, res) => {
-    console.log(req.body);
     req.body.password = Common.encrypt(req.body.password);
     req.body.userRole = 0;
     async.waterfall([
@@ -125,9 +124,27 @@ exports.newPassword = (res, req) => {
     })
 };
 
-exports.getUsers = (req, res) => {
+exports.deleteUser = (res, req) => {
     JWT.verify(req.body.token, privateKey, (err, decoded) => {
-        console.log(decoded);
+        if (err) return res.status(500).send(`Something went wrong`);
+        else {
+            User.findUserByUserName(decoded.id, decoded.username, (err, user) => {
+                if (err) return res.status(500).send(`Something went wrong`);
+                else if(user.userRole === 2){
+                    if(req.body.username && req.body.username !== decoded.username) {
+                        User.removeUser(req.body.username)
+                    }
+                }
+                else {
+                    return res.status(403).send(`You need admin access for this request.`);
+                }
+            })
+        }
+    })
+}
+
+exports.getUsers = (req, res) => {
+    JWT.verify(req.headers['x-access-token'], privateKey, (err, decoded) => {
         if (err) return res.status(500).send(`Something went wrong`);
         else {
             User.findUserByUserName(decoded.id, decoded.username, (err, user) => {
