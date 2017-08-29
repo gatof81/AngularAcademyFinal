@@ -2,6 +2,7 @@
 
 const Config = require('./config');
 const nodemailer = require("nodemailer");
+const JWT = require('jsonwebtoken');
 const crypto = require('crypto');
 const algorithm = 'aes-256-ctr';
 const privateKey = Config.key.privateKey;
@@ -21,6 +22,13 @@ exports.decrypt = (password) => {
 exports.encrypt = (password) => {
     return encrypt(password);
 };
+
+exports.verifyToken = (req, res, callback) => {
+    return JWT.verify(req.headers['x-access-token'], privateKey, (err, decoded) => {
+        if (err) return res.status(500).send(`Something went wrong: ${err.message}`);
+        callback(decoded);
+    });
+}
 
 exports.sentMailVerificationLink = (user, token, callback) => {
     let textLink = `http://${Config.server.host}:${Config.server.port}/${Config.email.verifyEmailUrl}/${token}`;

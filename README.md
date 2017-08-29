@@ -9,4 +9,4 @@ node server.js
 
 ### Notes
 
-you can change settings in server/config/config.jsgit c
+you can change settings in server/config/config.js
