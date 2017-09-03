@@ -62,6 +62,8 @@ exports.login = (req, res) => {
         else {
             if(!user.isVerified){
                 return res.status(401).send(`Your email address is not verified. please verify your email address to proceed`);
+            } else if (req.body.password !== user.password){
+                return res.status(422).send(`{error:Wrong Password}`);
             } else {
                 let tokenData = {
                     username: user.username,
@@ -69,6 +71,7 @@ exports.login = (req, res) => {
                 };
                 let result = {
                     username: user.username,
+                    id: user._id,
                     token: JWT.sign(tokenData, privateKey)
                 };
                 return res.json(result);
@@ -151,7 +154,7 @@ exports.updateUserAdmin = (req, res) => {
                 return res.status(422).send(`User not found`);
             } else {
 
-                let userData = {
+                let user = {
                     username: req.body.username,
                     isVerified: req.body.isVerified,
                     password: req.body.password,
@@ -159,7 +162,7 @@ exports.updateUserAdmin = (req, res) => {
                     shippingAddress: req.body.shippingAddress
                 }
 
-                User.findUserUpdate(userData, user, (err, user) => {
+                User.findUserUpdate(user, user, (err, user) => {
                     if(!err) {
                         return res.json({message: `account sucessfully verified`});
                     } else {
@@ -187,7 +190,7 @@ exports.updateUser = (req, res) => {
                     billingAddress: req.body.billingAddress,
                     shippingAddress: req.body.shippingAddress
                 }
-                User.findUserUpdate(userData, user, (err, user) => {
+                User.findUserUpdate(user, user, (err, user) => {
                     if(!err) {
                         return res.json({message: `account sucessfully verified`});
                     } else {
