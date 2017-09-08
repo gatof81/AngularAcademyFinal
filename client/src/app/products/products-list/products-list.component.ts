@@ -12,8 +12,7 @@ import {clone} from 'lodash';
   template: `    
     <div class="container-fluid text-center pb-5">
       <div class="row">
-        <app-products-card *ngFor="let product of getProducts() | async"
-                  (onbuy)="buyProduct($event)"></app-products-card>
+        <app-products-card *ngFor="let product of getProducts() | async"></app-products-card>
       </div>
     </div>
   `,
@@ -25,6 +24,8 @@ export class ProductsListComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<fromRoot.State>) {
     this.inCart = this.getProducts().takeWhile(() => this.alive).map((products) => products.length > 0);
+    console.log(this.inCart)
+    this.store.dispatch(new data.GetProductsAction({}));
   }
 
   ngOnInit() {
@@ -34,7 +35,7 @@ export class ProductsListComponent implements OnInit, OnDestroy {
     this.alive = false;
   }
 
-  getProducts(inCart = true) {
+  getProducts(inCart = false) {
     return this.store.select(fromRoot.getProducts)
       .takeWhile(() => this.alive)
       .map((prodArr) => prodArr.filter(prod => inCart ? prod.inCart === true : prod.inCart  !== true));

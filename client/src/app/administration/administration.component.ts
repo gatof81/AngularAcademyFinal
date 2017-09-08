@@ -3,9 +3,10 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-administration',
   template: `
-    <p>
-      administration Works!
-    </p>
+    <div class="container-fluid pb-5">
+      <app-admin-prod-input-form></app-admin-prod-input-form>
+      <app-admin-product-list></app-admin-product-list>
+    </div>
   `,
   styles: []
 })

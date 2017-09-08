@@ -14,15 +14,17 @@ import { RecaptchaComponent } from 'ng2-recaptcha';
 @Component({
   selector: 'app-login-input',
   template: `
-    <div class="form-group">
-      <div class="form-control">
-        <input placeholder="Login Email.." class="form-control" name="email" [formControl]="loginForm.controls['email']">
+    <div class="row">
+      <div class="form-group">
+        <div class="form-control">
+          <input placeholder="Login Email.." class="form-control" name="email" [formControl]="loginForm.controls['email']">
+        </div>
+        <div class="form-control">
+          <input placeholder="Password.." class="form-control" name="password" [formControl]="loginForm.controls['password']">
+        </div>
+        <recaptcha (resolved)="resolved($event)" siteKey="6LcFgy4UAAAAAOlyqqjNiIxSNZNRF1Ntl3p5h15b"></recaptcha>
+        <button [disabled]="!isValid()" (click)="login()">Login</button>
       </div>
-      <div class="form-control">
-        <input placeholder="Password.." class="form-control" name="password" [formControl]="loginForm.controls['password']">
-      </div>
-      <recaptcha (resolved)="resolved($event)" siteKey="6LcFgy4UAAAAAOlyqqjNiIxSNZNRF1Ntl3p5h15b"></recaptcha>
-      <button [disabled]="!isValid()" (click)="login()">Login</button>
     </div>
   `,
   styles: []
@@ -38,7 +40,7 @@ export class LoginInputComponent implements OnInit, OnDestroy {
   @HostListener('document:keypress', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
     if (event.charCode === 13 && this.loginForm.valid) {
-      this.login(this.loginForm.controls['email'].value, this.loginForm.controls['password'].value);
+      this.login();
     }
   }
 
@@ -46,12 +48,12 @@ export class LoginInputComponent implements OnInit, OnDestroy {
     this.loginForm = fb.group({
       'email': [null, Validators.compose([Validators.required, Validators.minLength(2)])],
       'password': [null, Validators.compose([Validators.required, Validators.minLength(8)])]
-  });
+    });
     this.store.select(fromRoot.getUser)
       .takeWhile(() => this.alive).subscribe(user => {
         console.log(user)
-      if(user.token)
-      this.stateService.go('products');
+      if(user.token) console.log('logged in')
+      //this.stateService.go('products');
     })
   }
 
@@ -70,13 +72,13 @@ export class LoginInputComponent implements OnInit, OnDestroy {
   }
 
   isValid() {
-    let valid = this.loginForm.valid && this.human;
+    let valid = this.loginForm.valid //&& this.human;
     return valid;
   }
 
-  login(email, password) {
-    console.log(email, password)
-    this.store.dispatch(new data.LoginAction({username: email, password: password}));
+  login() {
+    console.log(this.loginForm.controls['email'].value, this.loginForm.controls['password'].value)
+    this.store.dispatch(new data.LoginAction({username: this.loginForm.controls['email'].value, password: this.loginForm.controls['password'].value}));
     this.captcha.reset();
     //this.newCardForm.controls['text'].setValue('');
     // this.newCardForm.reset();

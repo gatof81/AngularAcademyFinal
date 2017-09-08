@@ -10,20 +10,15 @@ const async = require('async');
 
 exports.create = (req, res) => {
     Common.verifyTokenAdmin(req, res, () => {
-        Prodcut.saveProduct(req.body, (err, product) => {
+        Product.saveProduct(req.body, (err, product) => {
+            console.log(req.body)
             if(!err){
-                callback(null, product);
+                return res.json(product);
             } else {
                 if(err.name === 'ValidationError'){
-                    let error = {};
-                    error.statusCode = 409;
-                    error.message = `there was an issue with the information provided`
-                    callback(error, null)
+                    return res.status(409).send(`there was an issue with the information provided`)
                 } else {
-                    let error = {};
-                    error.statusCode = 500;
-                    error.message = `Something went wrong.`
-                    callback(error, null);
+                    return res.status(500).send(`Something went wrong.`)
                 }
             }
         })
@@ -32,12 +27,17 @@ exports.create = (req, res) => {
 
 exports.delete = (req, res) => {
     Common.verifyTokenAdmin(req, res, () => {
-        Product.findProduct({_id: req.body.id}, (err, product) => {
-            if(err) return res.status(400).send("product not found");
+        console.log(req.params);
+        Product.findProduct({_id: parseInt(req.params.id)}, (err, product) => {
+            console.log(err)
+            if(err) return res.status(500).send("There was an error with your request.");
+            if(!product) return res.status(404).send("product not found");
             else {
+                console.log(product);
                 Product.removeProduct(product._id, (err, success) =>{
+                    console.log(err,product);
                     if(err) return res.status(500).send("something went wrong");
-                    else return res.send("success: " + success)
+                    else if(success) return res.json(product);
                 })
             }
         })
@@ -46,18 +46,16 @@ exports.delete = (req, res) => {
 
 exports.update = (req, res) => {
     Common.verifyTokenAdmin(req, res, () => {
-        Product.findProduct({_id: req.body.id}, (err, product) => {
+        Product.findProduct({_id: req.body._id}, (err, product) => {
             if(err) return res.status(400).send("product not found");
-            else {
-                let prodData = {
-                    prod_name: req.body.prod_name,
-                    description: req.body.description,
-                    images: req.body.images,
-                    prod_name: req.body.prod_name
-                }
-                Product.updateProduct(prodData, (err, success) =>{
+            else if(product) {
+                product.prod_name = req.body.prod_name;
+                product.description = req.body.description;
+                product.price = req.body.price;
+                Product.findProdcutUpdate({_id: product._id}, product, (err, productUpdated) => {
+                    console.log(err, product);
                     if(err) return res.status(500).send("something went wrong");
-                    else return res.send("success: " + success)
+                    else if(productUpdated) return res.json(product);
                 })
             }
         })

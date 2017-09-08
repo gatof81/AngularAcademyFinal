@@ -1,5 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, NgModuleFactoryLoader, SystemJsNgModuleLoader } from '@angular/core';
+import { ModalModule } from 'ngx-bootstrap';
+
 
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -8,11 +10,13 @@ import { UIRouterModule} from '@uirouter/angular';
 import { MAIN_STATES, uiRouterConfigFn } from './app.states';
 import { reducers, metaReducers } from './reducers/index';
 import { EffectsModule } from '@ngrx/effects';
-import { DataEffects } from './effects/user'
+import { DataEffectsUsers } from './effects/user'
+import { DataEffectsProducts } from './effects/products'
 import { ToasterModule } from 'angular2-toaster';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { DataService } from './services/user.services';
+import { ProductsService } from './services/products.services';
 
 @NgModule({
   declarations: [
@@ -23,9 +27,10 @@ import { DataService } from './services/user.services';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    ModalModule.forRoot(),
     BrowserAnimationsModule,
     StoreModule.forRoot(reducers, { metaReducers }),
-    EffectsModule.forRoot([DataEffects]),
+    EffectsModule.forRoot([DataEffectsProducts, DataEffectsUsers]),
     ToasterModule,
     UIRouterModule.forRoot({
       states: MAIN_STATES,
@@ -35,6 +40,7 @@ import { DataService } from './services/user.services';
   ],
   providers: [
     DataService,
+    ProductsService,
     {provide: NgModuleFactoryLoader, useClass: SystemJsNgModuleLoader},
   ],
   bootstrap: [AppComponent]

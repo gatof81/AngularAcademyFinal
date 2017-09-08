@@ -3,9 +3,9 @@
 const Product = require('./product.server.controller');
 
 module.exports = function (app) {
-    app.post('/api/user', Product.create);
-    app.delete('/api/login', Product.delete);
-    app.put('/api/verifyLink', Product.update);
+    app.post('/api/products', Product.create);
+    app.delete('/api/deleteProduct/:id', Product.delete);
+    app.put('/api/updateProduct', Product.update);
     app.get('/api/newPassword', Product.getById);
-    app.get('/api/newPassword', Product.getAll);
+    app.get('/api/getAllProducts', Product.getAll);
 }

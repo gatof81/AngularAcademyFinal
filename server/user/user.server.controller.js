@@ -93,7 +93,7 @@ exports.verifyEmail = (req, res) => {
                 user.isVerified = true;
                 User.findUserUpdate({username: user.username}, user, (err, user) => {
                     if(!err) {
-                        return res.json({message: `account sucessfully verified`});
+                        return res.json({message: `account successfully verified`});
                     } else {
                         console.log(err);
                         return res.status(500).send(`Something went wrong`);

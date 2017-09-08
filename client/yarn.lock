@@ -3411,6 +3411,10 @@ negotiator@0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.1.tgz#2b327184e8992101177b28563fb5e7102acd0ca9"
 
+ng2-bs3-modal@^0.10.4:
+  version "0.10.4"
+  resolved "https://registry.yarnpkg.com/ng2-bs3-modal/-/ng2-bs3-modal-0.10.4.tgz#80f350cd3f7346193c8f9324c899d58db1714581"
+
 ng2-recaptcha@^1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/ng2-recaptcha/-/ng2-recaptcha-1.7.0.tgz#3dfe14f2a2e0b5a077be4690da5873f2916a176d"
@@ -3436,6 +3440,10 @@ ngrx@^2.0.1:
   resolved "https://registry.yarnpkg.com/ngrx/-/ngrx-2.0.1.tgz#edc7c08b6d0edaa4609f8dff75ed3129876f82ae"
   dependencies:
     fs-extra "^0.30.0"
+
+ngx-bootstrap@^1.9.1:
+  version "1.9.1"
+  resolved "https://registry.yarnpkg.com/ngx-bootstrap/-/ngx-bootstrap-1.9.1.tgz#09ed06d908f5f3bb23f821a0fb452e9a17d7665b"
 
 no-case@^2.2.0:
   version "2.3.1"

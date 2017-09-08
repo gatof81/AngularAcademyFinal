@@ -10,23 +10,25 @@ import { environment } from '../../environments/environment';
 
 import * as dataModel from '../models/data';
 
-import * as fromData from './user';
+import * as fromDataUser from './user';
+import * as fromDataProduct from './products';
 
 export interface State {
-  data: dataModel.Data;
+  dataUser: dataModel.DataUser,
+  dataProduct: dataModel.DataProducts
 }
 
 export const reducers: ActionReducerMap<State> = {
-  data: fromData.reducer,
+  dataUser: fromDataUser.reducer,
+  dataProduct: fromDataProduct.reducer
 };
 
 export function logger(reducer: ActionReducer<State>): any {
-  // default, no options
   return storeLogger()(reducer);
 }
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
-  return localStorageSync({keys: ['ui'], rehydrate: true})(reducer);
+  return localStorageSync({keys: ['user'], rehydrate: true})(reducer);
 }
 
 export const metaReducers: MetaReducer<State>[] = !environment.production
@@ -35,8 +37,11 @@ export const metaReducers: MetaReducer<State>[] = !environment.production
 
 /* Data */
 
-export const getDataState = (state: State) => state.data
+export const getDataStateUser = (state: State) => state.dataUser
+export const getDataStateProducts = (state: State) => state.dataProduct
 
-export const getUser = createSelector(getDataState, fromData.getUser);
-export const getProducts = createSelector(getDataState, fromData.getProducts);
+
+export const getUser = createSelector(getDataStateUser, fromDataUser.getUser);
+
+export const getProducts = createSelector(getDataStateProducts, fromDataProduct.getProducts);
 

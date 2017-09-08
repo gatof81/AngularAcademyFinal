@@ -13,7 +13,7 @@ import 'rxjs/add/operator/map'
 import { mapKeys, keys, isObject } from 'lodash';
 
 @Injectable()
-export class DataEffects {
+export class DataEffectsUsers {
 
   @Effect()
   login$: Observable<Action> = this.actions$.ofType(data.ActionTypes.LOGIN)

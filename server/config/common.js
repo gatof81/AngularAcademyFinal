@@ -4,6 +4,7 @@ const Config = require('./config');
 const nodemailer = require("nodemailer");
 const JWT = require('jsonwebtoken');
 const crypto = require('crypto');
+const User = require('../user/user.server.model').User;
 const algorithm = 'aes-256-ctr';
 const privateKey = Config.key.privateKey;
 

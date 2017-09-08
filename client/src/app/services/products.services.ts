@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { trim } from 'lodash';
 import {Store} from '@ngrx/store';
 import * as fromRoot from '../reducers';
 import * as data from '../actions/products';
+import {HttpObserve} from '@angular/common/http/src/client';
 
 @Injectable()
 export class ProductsService {
@@ -15,19 +16,29 @@ export class ProductsService {
   }
 
   addProduct(payload) {
-    return this.http.post(`http://localhost:8000/api/products`, {text: trim(payload)});
+    return this.http.post(`http://localhost:8000/api/products`, {
+      prod_name: trim(payload.prod_name),
+      description: trim(payload.description),
+      price: trim(payload.price)
+    }, {
+      headers: new HttpHeaders().set('x-access-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRpZWdvZjE4QGhvdG1haWwuY29tIiwiaWQiOjAsImlhdCI6MTUwNDQ5NTQyOH0.oOoLYh9Ih9hBYg8FemdtnDT1tFjIsP72KYELYpBJ3N0'),
+    });
   }
 
-  getProducts(payload) {
-    return this.http.get(`http://localhost:8000/api/products`);
+  getProducts() {
+    return this.http.get(`http://localhost:8000/api/getAllProducts/`);
   }
 
   remove(payload) {
-    return this.http.delete(`/api/cards/${payload.id}.json`);
+    return this.http.delete(`http://localhost:8000/api/deleteProduct/${payload._id}`,{
+      headers: new HttpHeaders().set('x-access-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRpZWdvZjE4QGhvdG1haWwuY29tIiwiaWQiOjAsImlhdCI6MTUwNDQ5NTQyOH0.oOoLYh9Ih9hBYg8FemdtnDT1tFjIsP72KYELYpBJ3N0')
+    })
   }
 
   update(payload) {
-    return this.http.patch(`/api/cards/${payload.id}.json`, payload);
+    return this.http.put(`http://localhost:8000/api/updateProduct/`, payload,{
+      headers: new HttpHeaders().set('x-access-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRpZWdvZjE4QGhvdG1haWwuY29tIiwiaWQiOjAsImlhdCI6MTUwNDQ5NTQyOH0.oOoLYh9Ih9hBYg8FemdtnDT1tFjIsP72KYELYpBJ3N0'),
+    })
   }
 
   refreshToken() {

@@ -15,7 +15,7 @@ let Product = new Schema({
         type: String,
         required: true
     },
-    image: {
+    images: {
         type: Array,
         default: []
     },
@@ -38,18 +38,14 @@ Product.statics = {
     findProdcutUpdate: function (query, product, callback) {
         this.findOneAndUpdate(query, product, callback);
     },
-    updateProduct: function (product, callback) {
-        product.markModified('Object');
-        product.save(callback);
-    },
     findProduct: function (query, callback) {
         this.findOne(query, callback);
     },
     findByPrductID: function (id, product, callback) {
         this.findOne({ prod_name: product, _id: id}, callback);
     },
-    removeProduct: function (productid) {
-        this.findOneAndRemove({_id: productid});
+    removeProduct: function (productid, callback) {
+        this.findOneAndRemove({_id: productid}, callback);
     },
     findAllProducts: function (callback) {
         this.find({}, callback);
