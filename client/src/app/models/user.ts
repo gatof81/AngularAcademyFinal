@@ -4,4 +4,5 @@ export interface User {
   token?: string;
   shippingAddress?: string;
   billingAddress?: string;
+  role?:number;
 }

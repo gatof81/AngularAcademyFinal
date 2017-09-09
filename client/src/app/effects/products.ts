@@ -41,7 +41,7 @@ export class DataEffectsProducts {
 
   @Effect()
   update$: Observable<Action> = this.actions$.ofType(data.ActionTypes.SERVER_UPDATE_PRODUCT)
-    //.debounceTime(300)
+    .debounceTime(300)
     .map((action: data.UpdateProductAction) => action.payload)
     .switchMap(payload => this.dataService.update(payload)
       .map(res => new data.UpdateProductSuccessAction(res))

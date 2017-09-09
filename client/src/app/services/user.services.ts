@@ -15,7 +15,7 @@ export class DataService {
   }
 
   register(payload) {
-    return this.http.post(`/api/cards.json`, {text: trim(payload)});
+    return this.http.post(`http://localhost:8000/api/user`, {username: payload.username, password: payload.password});
   }
 
   login(payload) {

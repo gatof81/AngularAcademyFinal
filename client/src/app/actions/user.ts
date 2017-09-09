@@ -4,14 +4,12 @@ import { User} from '../models/user';
 
 export const ActionTypes = {
   LOGIN: type('[Data] Login User'),
-  LOGIN_SUCCESS: type('[Data] Load Cards Success'),
-  UPDATE: type('[Data] Update Card'),
+  LOGIN_SUCCESS: type('[Data] Load User Success'),
+  UPDATE: type('[Data] Update User'),
   UPDATE_SUCCESS: type('[Data] Server Update Success'),
-  SERVER_ADD_SUCCESS: type('[Data] Server Add Card Successful'),
-  SERVER_FAIL: type('[Data] Server Failure'),
-  REFRESH_TOKEN: type('[Data] Refresh Token'),
-  REFRESH_TOKEN_SUCCESS: type('[Data] Refresh Token Success'),
-  REFRESH_TOKEN_FAIL: type('[Data] Refresh Token Fail'),
+  SERVER_REGISTER_USER: type('[Data] Server Register User'),
+  SERVER_REGISTER_SUCCESS: type('[Data] Server Register User Successful'),
+  SERVER_FAIL: type('[Data] Server Failure')
 };
 
 export class LoginAction implements Action {
@@ -37,29 +35,24 @@ export class UpdateSuccessAction implements Action {
   constructor(public payload: any) { }
 }
 
+export class RegisterUserAction implements Action {
+  readonly type = ActionTypes.SERVER_REGISTER_USER;
+
+  constructor(public payload: any) { }
+}
+
+export class RegisterUserSuccessAction implements Action {
+  readonly type = ActionTypes.SERVER_REGISTER_SUCCESS;
+
+  constructor(public payload: any) { }
+}
+
 export class ServerFailAction implements Action {
   readonly type = ActionTypes.SERVER_FAIL;
 
   constructor(public payload: any) { }
 }
 
-export class RefreshTokenAction implements Action {
-  readonly type = ActionTypes.REFRESH_TOKEN;
-
-  constructor(public payload: any) { }
-}
-
-export class RefreshTokenSuccessAction implements Action {
-  readonly type = ActionTypes.REFRESH_TOKEN_SUCCESS;
-
-  constructor(public payload: any) { }
-}
-
-export class RefreshTokenFailAction implements Action {
-  readonly type = ActionTypes.REFRESH_TOKEN_FAIL;
-
-  constructor(public payload: any) { }
-}
 
 export type Actions
   = LoginAction
@@ -67,6 +60,5 @@ export type Actions
   | UpdateAction
   | UpdateSuccessAction
   | ServerFailAction
-  | RefreshTokenAction
-  | RefreshTokenSuccessAction
-  | RefreshTokenFailAction;
+  | RegisterUserAction
+  | RegisterUserSuccessAction

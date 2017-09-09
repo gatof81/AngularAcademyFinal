@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { type } from '../utils';
+import {Product} from '../models/product';
 
 export const ActionTypes = {
   PRODUCTS: type('[Data] Get Products'),
@@ -10,7 +11,8 @@ export const ActionTypes = {
   SERVER_DELETE_PRODUCT: type('[Data] Delete product'),
   SERVER_DELETE_SUCCESSFUL: type('[Data] Delete product Success'),
   SERVER_UPDATE_PRODUCT: type('[Data] Update product'),
-  SERVER_UPDATE_SUCCESSFUL: type('[Data] Update product Success')
+  SERVER_UPDATE_SUCCESSFUL: type('[Data] Update product Success'),
+  TOGGLE_CART: type('[Data] Toggle cart')
 };
 
 export class GetProductsAction implements Action {
@@ -66,6 +68,12 @@ export class UpdateProductSuccessAction implements Action {
   constructor(public payload: any) { }
 }
 
+export class ToggleCartAction implements Action {
+  readonly type = ActionTypes.TOGGLE_CART;
+
+  constructor(public payload: Product) { }
+}
+
 export type Actions
   = GetProductsAction
   | GetProductsSuccessAction
@@ -76,3 +84,4 @@ export type Actions
   | DeleteProductSuccessAction
   | UpdateProductAction
   | UpdateProductSuccessAction
+  | ToggleCartAction

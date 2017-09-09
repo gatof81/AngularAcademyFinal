@@ -17,10 +17,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { DataService } from './services/user.services';
 import { ProductsService } from './services/products.services';
+import { NavBarComponent } from './nav-bar/nav-bar.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NavBarComponent
   ],
   imports: [
     BrowserModule,

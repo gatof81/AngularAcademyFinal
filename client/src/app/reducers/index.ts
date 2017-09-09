@@ -28,7 +28,7 @@ export function logger(reducer: ActionReducer<State>): any {
 }
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
-  return localStorageSync({keys: ['user'], rehydrate: true})(reducer);
+  return localStorageSync({keys: ['dataUser'], rehydrate: true})(reducer);
 }
 
 export const metaReducers: MetaReducer<State>[] = !environment.production

@@ -1,4 +1,9 @@
+import {Store} from '@ngrx/store';
+import * as fromRoot from './reducers'
+
 const typeCache: {[label: string]: boolean} = {};
+
+
 //const store = new Store(fromRoot.State);
 
 export function type<T>(label: T | ''): T {
@@ -15,9 +20,11 @@ export function requireAdmin(transition) {
   //get app state
   return $state.target('login');
 
-};export function requireLogged(transition) {
+};
+export function requireLogged(transition) {
   let $state = transition.router.stateService;
   //TODO
   //get app state
   return $state.target('login');
 };
+

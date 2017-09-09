@@ -44,7 +44,7 @@ export class LoginInputComponent implements OnInit, OnDestroy {
     }
   }
 
-  constructor(private store: Store<fromRoot.State>, fb: FormBuilder, public stateService: StateService) {
+  constructor(private store: Store<fromRoot.State>, fb: FormBuilder, private stateService: StateService) {
     this.loginForm = fb.group({
       'email': [null, Validators.compose([Validators.required, Validators.minLength(2)])],
       'password': [null, Validators.compose([Validators.required, Validators.minLength(8)])]
@@ -72,7 +72,7 @@ export class LoginInputComponent implements OnInit, OnDestroy {
   }
 
   isValid() {
-    let valid = this.loginForm.valid //&& this.human;
+    let valid = this.loginForm.valid && this.human;
     return valid;
   }
 

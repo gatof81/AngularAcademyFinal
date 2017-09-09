@@ -4,7 +4,6 @@ import * as data from '../../actions/products';
 import 'rxjs/add/operator/takeWhile';
 import 'rxjs/add/operator/map';
 import {Store} from '@ngrx/store';
-import {Observable} from 'rxjs/Observable';
 import {clone} from 'lodash';
 
 @Component({
@@ -12,19 +11,16 @@ import {clone} from 'lodash';
   template: `    
     <div class="container-fluid text-center pb-5">
       <div class="row">
-        <app-products-card *ngFor="let product of getProducts() | async"></app-products-card>
+        <app-products-card *ngFor="let product of getProducts() | async" [product]="product" (onBuy)="addToCart($event)"></app-products-card>
       </div>
     </div>
   `,
   styles: []
 })
 export class ProductsListComponent implements OnInit, OnDestroy {
-  public inCart: Observable<boolean>;
   private alive = true;
 
   constructor(private store: Store<fromRoot.State>) {
-    this.inCart = this.getProducts().takeWhile(() => this.alive).map((products) => products.length > 0);
-    console.log(this.inCart)
     this.store.dispatch(new data.GetProductsAction({}));
   }
 
@@ -37,11 +33,12 @@ export class ProductsListComponent implements OnInit, OnDestroy {
 
   getProducts(inCart = false) {
     return this.store.select(fromRoot.getProducts)
-      .takeWhile(() => this.alive)
-      .map((prodArr) => prodArr.filter(prod => inCart ? prod.inCart === true : prod.inCart  !== true));
+      .takeWhile(() => this.alive);
   }
 
-  buyProduct(product) {
-    this.store.dispatch(new data.GetProductsAction(product));
+  addToCart(product) {
+    let clonned = clone(product);
+    clonned.pinned = !clonned.inCart;
+    this.store.dispatch(new data.ToggleCartAction(clonned));
   }
 }

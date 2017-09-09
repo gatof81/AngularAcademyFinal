@@ -10,6 +10,8 @@ export function reducer(state = dataModel.defaultsUser, action: data.Actions): d
   switch (action.type) {
     case data.ActionTypes.LOGIN_SUCCESS:
       return merge({}, state, {user: action.payload});
+    case data.ActionTypes.SERVER_REGISTER_SUCCESS:
+      return merge({}, state, {user: action.payload});
     default:
       return state;
   }

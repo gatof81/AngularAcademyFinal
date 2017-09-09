@@ -62,7 +62,7 @@ exports.login = (req, res) => {
         else {
             if(!user.isVerified){
                 return res.status(401).send(`Your email address is not verified. please verify your email address to proceed`);
-            } else if (req.body.password !== user.password){
+            } else if (Common.encrypt(req.body.password) !== user.password){
                 return res.status(422).send(`{error:Wrong Password}`);
             } else {
                 let tokenData = {
@@ -72,6 +72,7 @@ exports.login = (req, res) => {
                 let result = {
                     username: user.username,
                     id: user._id,
+                    role: user.userRole,
                     token: JWT.sign(tokenData, privateKey)
                 };
                 return res.json(result);
@@ -82,7 +83,8 @@ exports.login = (req, res) => {
 
 exports.verifyEmail = (req, res) => {
     Common.verifyToken(req, res, decoded => {
-        User.findUser(decoded.id, decoded.username, (err, user) => {
+        console.log(decoded);
+        User.findUser({_id: decoded.id, username: decoded.username}, (err, user) => {
             if(err) {
                 return res.status(500).send(`something went wrong`);
             } else if (user === null) {

@@ -17,6 +17,6 @@ module.exports = {
         username: 'infoacademy01@gmail.com',
         password: 'asdqwe12',
         verifyEmailUrl: 'api/verifyLink',
-        resetEmailUrl: ''
+        resetEmailUrl: 'api/resetPassword'
     }
 }

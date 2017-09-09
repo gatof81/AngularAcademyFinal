@@ -25,7 +25,8 @@ exports.encrypt = (password) => {
 };
 
 exports.verifyToken = (req, res, callback) => {
-    return JWT.verify(req.headers['x-access-token'], privateKey, (err, decoded) => {
+    let token = req.params.token || req.headers['x-access-token'];
+    return JWT.verify(token, privateKey, (err, decoded) => {
         if (err) return res.status(500).send(`Something went wrong: ${err.message}`);
         callback(decoded);
     });
@@ -55,7 +56,7 @@ exports.sentMailVerificationLink = (user, token, callback) => {
     })
 }
 
-exports.sentMailVerificationLink = (user, token, callback) => {
+exports.sentMailPasswordReset = (user, token, callback) => {
     let textLink = `http://${Config.server.host}:${Config.server.port}/${Config.email.resetEmailUrl}/${token}`;
     let from = `Angular Academy<${Config.email.username}>`;
     let mailbody = `<p>Please reset your password by clicking on the following link.</p><br>

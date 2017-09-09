@@ -23,6 +23,10 @@ export function reducer(state = dataModel.defaultsProducts, action: data.Actions
       });
       stateCopy.products.push(action.payload);
       return merge({}, stateCopy);
+    case data.ActionTypes.TOGGLE_CART:
+      let product = find(stateCopy.products,{_id: action.payload._id});
+      product.inCart = !product.inCart;
+      return merge({}, stateCopy);
     default:
       return state;
   }

@@ -19,6 +19,7 @@ export let MAIN_STATES: Ng2StateDeclaration[] = [
   },
   { name: 'admin.**',
     url: '/admin',
-    loadChildren: './administration/administration.module#AdministrationModule'
+    loadChildren: './administration/administration.module#AdministrationModule',
+    //onEnter: requireAdmin
   }
 ];
