@@ -55,8 +55,8 @@ User.statics = {
     findUserByUserName: function (id, username, callback) {
         this.findOne({ username: username, _id: id}, callback);
     },
-    removeUser: function (user) {
-      this.findOneAndRemove({username: user});
+    removeUser: function (query, callback) {
+      this.findOneAndRemove(query, callback);
     },
     findAllUsers: function (callback) {
         this.find({}, callback);

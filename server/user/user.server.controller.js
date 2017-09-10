@@ -71,8 +71,8 @@ exports.login = (req, res) => {
                 };
                 let result = {
                     username: user.username,
-                    id: user._id,
-                    role: user.userRole,
+                    _id: user._id,
+                    userRole: user.userRole,
                     token: JWT.sign(tokenData, privateKey)
                 };
                 return res.json(result);
@@ -125,9 +125,14 @@ exports.newPassword = (req, res) => {
 
 exports.deleteUser = (req, res) => {
     Common.verifyToken(req, res, decoded => {
-        if(req.body.username && req.body.username !== decoded.username) {
-            User.removeUser(req.body.username);
-            return res.json({message: `user successfully deleted`});
+        if(req.params.id && req.params.id !== decoded._id) {
+            console.log(req.params);
+            if(decoded.userRole === 2 || decoded._id === req.params.id){
+                User.removeUser({_id: req.params.id}, (err, userDeleted) => {
+                    if(err) return res.status(500).send(`something went wrong: ${err}`);
+                    return res.json(userDeleted);
+                });
+            }
         }
     })
 }
@@ -137,11 +142,7 @@ exports.getUsers = (req, res) => {
         User.findAllUsers((err, users) => {
             if (err) return res.status(500).send(`Something went wrong`);
             else {
-                let userMap = {};
-                users.forEach(function (user) {
-                    userMap[user._id] = user;
-                });
-                return res.send(userMap);
+                return res.send(users);
             }
         });
     })
@@ -179,28 +180,43 @@ exports.updateUserAdmin = (req, res) => {
 
 exports.updateUser = (req, res) => {
     Common.verifyToken(req, res, decoded => {
-        User.findUser(decoded.id, decoded.username, (err, user) => {
-            if(err) {
-                return res.status(500).send(`something went wrong`);
-            } else if (user === null) {
-                return res.status(422).send(`User not found`);
-            } else {
-                let userData = {
-                    username: req.body.username,
-                    isVerified: req.body.isVerified,
-                    password: req.body.password,
-                    billingAddress: req.body.billingAddress,
-                    shippingAddress: req.body.shippingAddress
-                }
-                User.findUserUpdate(user, user, (err, user) => {
-                    if(!err) {
-                        return res.json({message: `account sucessfully verified`});
-                    } else {
-                        console.log(err);
-                        return res.status(500).send(`Something went wrong`);
-                    }
-                })
+        if(decoded.userRole === 2 || decoded._id === req.body._id) {
+            // let userData = {
+            //     billingAddress: req.body.billingAddress,
+            //     shippingAddress: req.body.shippingAddress,
+            //     userRole: req.body.userRole
+            // }
+            let userData = {};
+            if(req.body.billingAddress){
+                userData.billingAddress = req.body.billingAddress
             }
-        })
+            if(req.body.shippingAddress){
+                userData.shippingAddress = req.body.shippingAddress
+            }
+            if(req.body.userRole){
+                userData.userRole = req.body.userRole
+            }
+            User.findUserUpdate({_id: req.body._id}, userData, (err, updatedUser) => {
+                if(!err) {
+                    console.log(updatedUser);
+                    let userupdate=
+                        {   _id: updatedUser._id,
+                            username: updatedUser.username,
+                            billingAddress: req.body.billingAddress || updatedUser.billingAddress,
+                            shippingAddress: req.body.shippingAddress || updatedUser.shippingAddress,
+                            userRole: req.body.userRole || updatedUser.userRole
+                        }
+                    return res.json(userupdate);
+                }
+                if(err) {
+                    return res.status(500).send(`something went wrong`);
+                } else if (updatedUser === null) {
+                    return res.status(422).send(`User not found`);
+                }
+            });
+        }else {
+            return res.status(401).send('401 unauthorized access');
+        }
+
     })
 };

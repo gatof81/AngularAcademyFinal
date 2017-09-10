@@ -16,10 +16,10 @@ import { RecaptchaComponent } from 'ng2-recaptcha';
   template: `
     <div class="row">
       <div class="form-group">
-        <div class="form-control">
+        <div class="form-control input-space">
           <input placeholder="Login Email.." class="form-control" name="email" [formControl]="loginForm.controls['email']">
         </div>
-        <div class="form-control">
+        <div class="form-control input-space">
           <input placeholder="Password.." class="form-control" name="password" [formControl]="loginForm.controls['password']">
         </div>
         <recaptcha (resolved)="resolved($event)" siteKey="6LcFgy4UAAAAAOlyqqjNiIxSNZNRF1Ntl3p5h15b"></recaptcha>
@@ -30,7 +30,7 @@ import { RecaptchaComponent } from 'ng2-recaptcha';
   styles: []
 })
 export class LoginInputComponent implements OnInit, OnDestroy {
-  @HostBinding('class') class = 'col-8';
+  @HostBinding('class') class = 'modal-visible';
   @Output() onLogin = new EventEmitter<string>();
   @ViewChild(RecaptchaComponent) captcha: RecaptchaComponent;
   loginForm: FormGroup;
@@ -51,9 +51,8 @@ export class LoginInputComponent implements OnInit, OnDestroy {
     });
     this.store.select(fromRoot.getUser)
       .takeWhile(() => this.alive).subscribe(user => {
-        console.log(user)
-      if(user.token) console.log('logged in')
-      //this.stateService.go('products');
+      if(user.token)
+        this.stateService.go('products');
     })
   }
 

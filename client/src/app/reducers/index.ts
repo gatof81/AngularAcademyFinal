@@ -12,15 +12,18 @@ import * as dataModel from '../models/data';
 
 import * as fromDataUser from './user';
 import * as fromDataProduct from './products';
+import * as fromDataAllUsers from './userList';
 
 export interface State {
   dataUser: dataModel.DataUser,
-  dataProduct: dataModel.DataProducts
+  dataProduct: dataModel.DataProducts,
+  dataAllUsers: dataModel.DataAllUsers
 }
 
 export const reducers: ActionReducerMap<State> = {
   dataUser: fromDataUser.reducer,
-  dataProduct: fromDataProduct.reducer
+  dataProduct: fromDataProduct.reducer,
+  dataAllUsers: fromDataAllUsers.reducer
 };
 
 export function logger(reducer: ActionReducer<State>): any {
@@ -37,11 +40,14 @@ export const metaReducers: MetaReducer<State>[] = !environment.production
 
 /* Data */
 
-export const getDataStateUser = (state: State) => state.dataUser
-export const getDataStateProducts = (state: State) => state.dataProduct
+export const getDataStateUser = (state: State) => state.dataUser;
+export const getDataStateProducts = (state: State) => state.dataProduct;
+export const getDataStateAllUsers = (state: State) => state.dataAllUsers;
 
 
 export const getUser = createSelector(getDataStateUser, fromDataUser.getUser);
 
 export const getProducts = createSelector(getDataStateProducts, fromDataProduct.getProducts);
+
+export const getAllUsers = createSelector(getDataStateAllUsers, fromDataAllUsers.getAllUsers);
 

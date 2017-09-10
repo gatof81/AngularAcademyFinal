@@ -3,7 +3,7 @@ import { Action } from '@ngrx/store';
 import * as dataModel from '../models/data';
 import * as data from '../actions/user';
 import * as products from '../actions/products';
-import { merge, without, clone, find } from 'lodash';
+import { merge, without, clone, filter } from 'lodash';
 
 
 export function reducer(state = dataModel.defaultsUser, action: data.Actions): dataModel.DataUser {
@@ -12,6 +12,8 @@ export function reducer(state = dataModel.defaultsUser, action: data.Actions): d
       return merge({}, state, {user: action.payload});
     case data.ActionTypes.SERVER_REGISTER_SUCCESS:
       return merge({}, state, {user: action.payload});
+    case data.ActionTypes.LOGOUT:
+      return merge ({},{user: {}});
     default:
       return state;
   }

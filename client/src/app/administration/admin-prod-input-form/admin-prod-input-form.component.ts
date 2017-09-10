@@ -4,6 +4,7 @@ import {Store} from '@ngrx/store';
 import * as fromRoot from '../../reducers';
 import { StateService } from '@uirouter/angular';
 import * as data from '../../actions/products';
+import {User} from '../../models/user';
 
 
 @Component({
@@ -36,6 +37,7 @@ export class AdminProdInputFormComponent implements OnInit, OnDestroy {
   private alive = true;
   productForm: FormGroup;
   public visible = false;
+  private user:User;
 
   constructor(private store: Store<fromRoot.State>, fb: FormBuilder, public stateService: StateService) {
     this.productForm = fb.group({
@@ -45,9 +47,9 @@ export class AdminProdInputFormComponent implements OnInit, OnDestroy {
     });
     this.store.select(fromRoot.getUser)
       .takeWhile(() => this.alive).subscribe(user => {
-      console.log(user)
       if(user.token) console.log(user.token)
         //this.stateService.go('products');
+        this.user = user;
     })
   }
 
@@ -69,9 +71,12 @@ export class AdminProdInputFormComponent implements OnInit, OnDestroy {
 
   create() {
     this.store.dispatch(new data.CreateProductAction({
-      prod_name: this.productForm.controls['name'].value,
-      description: this.productForm.controls['desc'].value,
-      price: this.productForm.controls['price'].value,
+      user:{
+        prod_name: this.productForm.controls['name'].value,
+        description: this.productForm.controls['desc'].value,
+        price: this.productForm.controls['price'].value,
+      },
+      token: this.user.token
     }));
     this.productForm.reset();
     this.toggleVisible();

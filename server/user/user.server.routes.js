@@ -7,5 +7,7 @@ module.exports = function (app) {
     app.post('/api/login', User.login);
     app.get('/api/verifyLink/:token', User.verifyEmail);
     app.put('/api/newPassword', User.newPassword);
-    app.get('/api/allUsers', User.getUsers);
+    app.put('/api/updateUser', User.updateUser);
+    app.get('/api/allUsers/:token', User.getUsers);
+    app.delete('/api/deleteUser/:id', User.deleteUser)
 }

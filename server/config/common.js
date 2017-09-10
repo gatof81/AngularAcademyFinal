@@ -28,12 +28,16 @@ exports.verifyToken = (req, res, callback) => {
     let token = req.params.token || req.headers['x-access-token'];
     return JWT.verify(token, privateKey, (err, decoded) => {
         if (err) return res.status(500).send(`Something went wrong: ${err.message}`);
-        callback(decoded);
+        User.findUserByUserName(decoded.id, decoded.username, (err, user) => {
+            if (err) return res.status(500).send(`Something went wrong`);
+            callback(user);
+        })
     });
 };
 
 exports.verifyTokenAdmin = (req, res, callback) => {
-    return JWT.verify(req.headers['x-access-token'], privateKey, (err, decoded) => {
+    let token = req.params.token || req.headers['x-access-token'];
+    return JWT.verify(token, privateKey, (err, decoded) => {
         if (err) return res.status(500).send(`Something went wrong: ${err.message}`);
         User.findUserByUserName(decoded.id, decoded.username, (err, user) => {
             if (err) return res.status(500).send(`Something went wrong`);

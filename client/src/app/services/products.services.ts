@@ -4,12 +4,16 @@ import { trim } from 'lodash';
 import {Store} from '@ngrx/store';
 import * as fromRoot from '../reducers';
 import * as data from '../actions/products';
-import {HttpObserve} from '@angular/common/http/src/client';
+import {User} from '../models/user';
+import 'rxjs/add/operator/takeWhile';
 
 @Injectable()
 export class ProductsService {
+  private user:User;
+  private alive;
 
-  constructor(private http: HttpClient, private store: Store<fromRoot.State>) { }
+  constructor(private http: HttpClient, private store: Store<fromRoot.State>) {
+  }
 
   dispatchLoad() {
     this.store.dispatch(new data.GetProductsAction({}));
@@ -17,11 +21,11 @@ export class ProductsService {
 
   addProduct(payload) {
     return this.http.post(`http://localhost:8000/api/products`, {
-      prod_name: trim(payload.prod_name),
-      description: trim(payload.description),
-      price: trim(payload.price)
+      prod_name: trim(payload.user.prod_name),
+      description: trim(payload.user.description),
+      price: trim(payload.user.price)
     }, {
-      headers: new HttpHeaders().set('x-access-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRpZWdvZjE4QGhvdG1haWwuY29tIiwiaWQiOjAsImlhdCI6MTUwNDQ5NTQyOH0.oOoLYh9Ih9hBYg8FemdtnDT1tFjIsP72KYELYpBJ3N0'),
+      headers: new HttpHeaders().set('x-access-token', payload.token),
     });
   }
 
@@ -31,17 +35,13 @@ export class ProductsService {
 
   remove(payload) {
     return this.http.delete(`http://localhost:8000/api/deleteProduct/${payload._id}`,{
-      headers: new HttpHeaders().set('x-access-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRpZWdvZjE4QGhvdG1haWwuY29tIiwiaWQiOjAsImlhdCI6MTUwNDQ5NTQyOH0.oOoLYh9Ih9hBYg8FemdtnDT1tFjIsP72KYELYpBJ3N0')
+      headers: new HttpHeaders().set('x-access-token', payload.user.token)
     })
   }
 
   update(payload) {
-    return this.http.put(`http://localhost:8000/api/updateProduct/`, payload,{
-      headers: new HttpHeaders().set('x-access-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRpZWdvZjE4QGhvdG1haWwuY29tIiwiaWQiOjAsImlhdCI6MTUwNDQ5NTQyOH0.oOoLYh9Ih9hBYg8FemdtnDT1tFjIsP72KYELYpBJ3N0'),
+    return this.http.put(`http://localhost:8000/api/updateProduct/`, payload.product,{
+      headers: new HttpHeaders().set('x-access-token', payload.user.token),
     })
-  }
-
-  refreshToken() {
-    return this.http.get(`/api/xsrf.json`);
   }
 }

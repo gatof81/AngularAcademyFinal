@@ -21,8 +21,7 @@ export let LOGIN_STATES: Ng2StateDeclaration[] = [
     name:'login.login-input',
     url: '/login-input',
     component: LoginInputComponent
-  }
-  ,
+  },
   {
     name:'login.register-input',
     url: '/register-input',

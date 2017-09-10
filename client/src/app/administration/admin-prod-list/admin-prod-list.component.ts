@@ -5,6 +5,7 @@ import 'rxjs/add/operator/takeWhile';
 import 'rxjs/add/operator/map';
 import {Store} from '@ngrx/store';
 import {Product} from '../../models/product';
+import {User} from '../../models/user';
 
 @Component({
   selector: 'app-admin-product-list',
@@ -12,7 +13,7 @@ import {Product} from '../../models/product';
     <app-admin-prod-edit 
       [editingProduct]="editingProduct"
       [visible]="visible"
-      (onCancel)="editProduct()"
+      (onCancel)="editProduct($event)"
       (onUpdate)="updateProduct($event)"
     ></app-admin-prod-edit>
     <div class="row text-center">
@@ -43,8 +44,15 @@ export class AdminProdListComponent implements OnInit, OnDestroy {
   private pageLength = 10
   public visible = false;
   public editingProduct:Product;
+  private user:User;
 
   constructor(private store: Store<fromRoot.State>) {
+    this.store.select(fromRoot.getUser)
+      .takeWhile(() => this.alive).subscribe(user => {
+      if(user.token) console.log(user.token)
+      //this.stateService.go('products');
+      this.user = user;
+    });
     this.store.dispatch(new data.GetProductsAction({}));
   }
 
@@ -61,7 +69,11 @@ export class AdminProdListComponent implements OnInit, OnDestroy {
   }
 
   updateProduct(product){
-    this.store.dispatch(new data.UpdateProductAction(product));
+    let payload = {
+      product: product,
+      user: this.user
+    }
+    this.store.dispatch(new data.UpdateProductAction(payload));
   }
 
   getProductsPaged() {
@@ -75,7 +87,11 @@ export class AdminProdListComponent implements OnInit, OnDestroy {
   }
 
   deleteProduct(product) {
-    this.store.dispatch(new data.DeleteProductAction(product));
+    let payload = {
+      product: product,
+      user: this.user.token
+    }
+    this.store.dispatch(new data.DeleteProductAction(payload));
   }
 }
 

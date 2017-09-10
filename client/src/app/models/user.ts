@@ -1,8 +1,8 @@
 export interface User {
-  id?: number;
+  _id?: number;
   username?: string;
   token?: string;
   shippingAddress?: string;
   billingAddress?: string;
-  role?:number;
+  userRole?:number;
 }

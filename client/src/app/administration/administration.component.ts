@@ -4,8 +4,8 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-administration',
   template: `
     <div class="container-fluid pb-5">
-      <app-admin-prod-input-form></app-admin-prod-input-form>
-      <app-admin-product-list></app-admin-product-list>
+      <!-- viewport for child view -->
+      <ui-view></ui-view>
     </div>
   `,
   styles: []

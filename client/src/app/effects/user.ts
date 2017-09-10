@@ -10,7 +10,6 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/catch';
 import {ToasterService} from 'angular2-toaster';
 import 'rxjs/add/operator/map'
-import { mapKeys, keys, isObject } from 'lodash';
 
 @Injectable()
 export class DataEffectsUsers {
@@ -27,6 +26,27 @@ export class DataEffectsUsers {
     .map((action: data.RegisterUserAction) => action.payload)
     .switchMap(payload => this.dataService.register(payload)
       .map( res => new data.RegisterUserSuccessAction(res))
+      .catch(err => of(new data.ServerFailAction(err))));
+
+  @Effect()
+  getUsers$: Observable<Action> = this.actions$.ofType(data.ActionTypes.USERS)
+    .map((action: data.GetAllUsersAction) => action.payload)
+    .switchMap(payload => this.dataService.getUsers(payload)
+      .map( res => new data.GetAllUsersSuccess(res))
+      .catch(err => of(new data.ServerFailAction(err))));
+
+  @Effect()
+  update$: Observable<Action> = this.actions$.ofType(data.ActionTypes.UPDATE)
+    .map((action: data.UpdateAction) => action.payload)
+    .switchMap(payload => this.dataService.update(payload)
+      .map(res => new data.UpdateSuccessAction(res))
+        .catch(err => of(new data.ServerFailAction(err))));
+
+  @Effect()
+  delete$: Observable<Action> = this.actions$.ofType(data.ActionTypes.USER_DELETE)
+    .map((action: data.DeleteUserAction) => action.payload)
+    .switchMap(payload => this.dataService.remove(payload)
+      .map( res => new data.DeleteUserSuccess(res))
       .catch(err => of(new data.ServerFailAction(err))));
 
   constructor(private actions$: Actions, private dataService: DataService, private toasterService: ToasterService) {

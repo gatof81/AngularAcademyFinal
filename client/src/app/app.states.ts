@@ -5,19 +5,22 @@ import { requireLogged } from './utils';
 
 /** UIRouter Config  */
 export function uiRouterConfigFn(router: UIRouter, injector: Injector) {
-  router.urlService.rules.otherwise({ state: 'login' });
+  router.urlService.rules.otherwise({ state: 'products' });
 }
 
 export let MAIN_STATES: Ng2StateDeclaration[] = [
-  { url: '/login',
+  {
+    url: '/login',
     name: 'login.**',
     loadChildren: './login/login.module#LoginModule'
   },
-  { name: 'products.**',
+  {
+    name: 'products.**',
     url: '/products',
     loadChildren: './products/products.module#ProductsModule'
   },
-  { name: 'admin.**',
+  {
+    name: 'admin.**',
     url: '/admin',
     loadChildren: './administration/administration.module#AdministrationModule',
     //onEnter: requireAdmin

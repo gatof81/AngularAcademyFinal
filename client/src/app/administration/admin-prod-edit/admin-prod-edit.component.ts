@@ -31,7 +31,6 @@ export class AdminProdEditComponent implements OnInit, OnChanges {
   @Input() editingProduct:Product;
   @Output() onCancel = new EventEmitter();
   @Output() onUpdate = new EventEmitter();
-  private live = true;
 
   productEditForm: FormGroup;
 
