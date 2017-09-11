@@ -7,7 +7,10 @@ import {ProductsComponent} from './products.component';
 import {ProductsCardComponent} from './products-card/products-card.component';
 import {ProductsListComponent} from './products-list/products-list.component';
 import {OrderCartItemComponent} from './order-cart-item/order-cart-item.component';
+import {OrderCartListComponent} from './order-cart-list/order-cart-list.component';
 import {OrderMyOrdersComponent} from './order-my-orders/order-my-orders.component';
+import { NumberPickerComponent } from '../Shared/number-picker';
+
 
 const PRODUCTS_COMPONENTS =  [
   ProductsComponent,
@@ -15,7 +18,9 @@ const PRODUCTS_COMPONENTS =  [
   ProductsListComponent,
   OrderCartItemComponent,
   OrderCartItemComponent,
-  OrderMyOrdersComponent
+  OrderCartListComponent,
+  OrderMyOrdersComponent,
+  NumberPickerComponent
 ];
 
 @NgModule({

@@ -3,9 +3,8 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-order-my-orders',
   template: `
-    <p>
-      order-my-orders Works!
-    </p>
+    <!-- viewport for child view -->
+    <ui-view></ui-view>
   `,
   styles: []
 })

@@ -11,7 +11,7 @@ import { StateService } from '@uirouter/angular';
     <nav class="navbar navbar-toggleable-sm navbar-inverse fixed-top">
         <a class="navbar-brand" uiSref="products">Academy-E</a>
         <a class="nav-link" uiSref="products">store</a>
-        <a class="nav-link" uiSref="cart"><i>cart </i> <span *ngIf="inCart.length">({{inCart.length}})</span></a>
+        <a class="nav-link" uiSref="cart.checkout"><i>cart </i> <span *ngIf="inCart.length">({{inCart.length}})</span></a>
         <a *ngIf="admin" class="nav-link" uiSref="admin.user">Admin Users</a>
         <a *ngIf="admin || manager" class="nav-link" uiSref="admin.products">Admin Products</a>
         <a class="nav-item login-link" *ngIf="!logged" uiSref="login.register-input">Register</a>
