@@ -6,7 +6,7 @@ import { LoginInputComponent } from './login-input/login-input.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {RegisterInputComponent} from './register-input/register-input.component';
-//import { RecaptchaModule } from 'ng2-recaptcha';
+import { RecaptchaModule } from 'ng2-recaptcha';
 
 const LOGIN_COMPONENTS =  [
  LoginComponent, LoginInputComponent, RegisterInputComponent
@@ -16,7 +16,7 @@ const LOGIN_COMPONENTS =  [
   imports: [
     CommonModule,
     FormsModule,
-   // RecaptchaModule.forRoot(),
+    RecaptchaModule.forRoot(),
     ReactiveFormsModule,
     UIRouterModule.forChild({
       states: LOGIN_STATES,

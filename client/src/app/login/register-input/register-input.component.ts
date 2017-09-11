@@ -24,7 +24,7 @@ import { RecaptchaComponent } from 'ng2-recaptcha';
         <div class="form-control input-space">
           <input placeholder="Password Repeat" class="form-control" name="repeat" [formControl]="registerForm.controls['repeat']">
         </div>
-        <!--<recaptcha (resolved)="resolved($event)" siteKey="6LcFgy4UAAAAAOlyqqjNiIxSNZNRF1Ntl3p5h15b"></recaptcha>-->
+        <recaptcha (resolved)="resolved($event)" siteKey="6LcFgy4UAAAAAOlyqqjNiIxSNZNRF1Ntl3p5h15b"></recaptcha>
         <button [disabled]="!isValid()" (click)="register()">Register</button>
       </div>
     </div>
@@ -34,7 +34,7 @@ import { RecaptchaComponent } from 'ng2-recaptcha';
 export class RegisterInputComponent implements OnInit, OnDestroy {
   @HostBinding('class') class = 'modal-visible';
   @Output() onRegister = new EventEmitter<string>();
-  //@ViewChild(RecaptchaComponent) captcha: RecaptchaComponent;
+  @ViewChild(RecaptchaComponent) captcha: RecaptchaComponent;
   registerForm: FormGroup;
   private alive = true;
   private human = false;
@@ -81,7 +81,7 @@ export class RegisterInputComponent implements OnInit, OnDestroy {
 
   register() {
     this.store.dispatch(new data.RegisterUserAction({username: this.registerForm.controls['email'].value, password: this.registerForm.controls['password'].value}));
-    //this.captcha.reset();
+    this.captcha.reset();
     this.registerForm.reset();
   }
 
