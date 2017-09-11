@@ -37,11 +37,16 @@ import {Store} from '@ngrx/store';
               <th class="text-center">Order ID</th>
               <th class="text-center">Producst</th>
               <th class="text-center">Status</th>
-              <th></th>
+              <th *ngIf="user.userRole !== 0" class="text-center">Owner</th>
             </tr>
             </thead>
             <tbody>
-            <tr app-order-item *ngFor="let order of getOrders() | async" [order]="order"></tr>
+            <tr app-order-item *ngFor="let order of getOrders() | async" 
+                [order]="order" 
+                [user]="user"
+                (onDelete)="deleteOrder($event)"
+                (onChangeState)="ChangeState($event)"
+            ></tr>
             </tbody>
           </table>
         </div>
@@ -53,7 +58,7 @@ import {Store} from '@ngrx/store';
 export class OrderCartListComponent implements OnInit, OnDestroy {
   private alive:boolean = true;
   public inCart;
-  private user;
+  public user;
 
   constructor(private store: Store<fromRoot.State>) {
     this.store.dispatch(new data.GetProductsAction({}));
@@ -94,6 +99,22 @@ export class OrderCartListComponent implements OnInit, OnDestroy {
 
   quantity(number){
     console.log(number)
+  }
+
+  ChangeState(order){
+    let payload = {
+      order:order,
+      token: this.user.token
+    }
+    this.store.dispatch(new dataOrder.DeleteOrderAction(payload))
+  }
+
+  deleteOrder(order){
+    let payload = {
+      order:order,
+      token: this.user.token
+    }
+    this.store.dispatch(new dataOrder.DeleteOrderAction(payload))
   }
 
   checkOut(){

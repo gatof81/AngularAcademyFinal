@@ -28,6 +28,20 @@ export class DataEffectsOrders {
       .map(res => new data.CreateOrderActionSuccess(res))
       .catch(err => of(new data.ServerFailAction(err))));
 
+  @Effect()
+  delete$: Observable<Action> = this.actions$.ofType(data.ActionTypes.DELETE_ORDER)
+    .map((action: data.DeleteOrderAction) => action.payload)
+    .switchMap(payload => this.dataService.deleteOrder(payload)
+      .map(res => new data.DeleteOrderActionSuccess(res))
+      .catch(err => of(new data.ServerFailAction(err))));
+
+  @Effect()
+  change$: Observable<Action> = this.actions$.ofType(data.ActionTypes.CHANGE_ORDER_STATUS)
+    .map((action: data.ChangeOrderAction) => action.payload)
+    .switchMap(payload => this.dataService.changeOrder(payload)
+      .map(res => new data.ChangeOrderActionSuccess(res))
+      .catch(err => of(new data.ServerFailAction(err))));
+
   constructor(private actions$: Actions, private dataService: OrderServices, private toasterService: ToasterService) {
   }
 }

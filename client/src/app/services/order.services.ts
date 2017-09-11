@@ -26,4 +26,16 @@ export class OrderServices {
     return this.http.get(`http://localhost:8000/api/getAllOrdersFrom/${payload.token}`);
   }
 
+  deleteOrder(payload) {
+    return this.http.delete(`http://localhost:8000/api/deleteOrder/${payload.order._id}`,{
+      headers: new HttpHeaders().set('x-access-token', payload.token)
+    })
+  }
+
+  changeOrder(payload){
+    return this.http.put(`http://localhost:8000/api/updateOrder/`, payload.order,{
+      headers: new HttpHeaders().set('x-access-token', payload.token),
+    })
+  }
+
 }
