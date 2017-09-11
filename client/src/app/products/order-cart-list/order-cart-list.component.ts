@@ -84,12 +84,8 @@ export class OrderCartListComponent implements OnInit, OnDestroy {
   }
 
   getOrders(){
-    if(this.user.token){
-      return this.store.select(fromRoot.getOrders)
-        .takeWhile(() => this.alive)
-    }else{
-      return [];
-    }
+    return this.store.select(fromRoot.getOrders)
+      .takeWhile(() => this.alive)
   }
 
   ngOnDestroy() {
