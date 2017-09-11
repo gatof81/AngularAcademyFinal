@@ -12,10 +12,10 @@ import {User} from '../../models/user';
           {{editingUser.username}}
         </div>
         <div class="form-group">
-          <div class="form-control">
+          <div class="form-control input-space">
             <input placeholder="Billing Address" class="form-control" name="billing" [formControl]="userEditForm.controls['billing']">
           </div>
-          <div class="form-control">
+          <div class="form-control input-space">
             <input placeholder="Shipping Address" class="form-control" name="shipping" [formControl]="userEditForm.controls['shipping']">
           </div>
           <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect"  [formControl]="userEditForm.controls['role']">

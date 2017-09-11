@@ -8,7 +8,6 @@ import { Store } from '@ngrx/store';
 import * as fromRoot from '../../reducers';
 import * as data from '../../actions/user';
 import { StateService } from '@uirouter/angular';
-import { RecaptchaComponent } from 'ng2-recaptcha';
 
 
 @Component({
@@ -22,7 +21,6 @@ import { RecaptchaComponent } from 'ng2-recaptcha';
         <div class="form-control input-space">
           <input placeholder="Password.." class="form-control" name="password" [formControl]="loginForm.controls['password']">
         </div>
-        <recaptcha (resolved)="resolved($event)" siteKey="6LcFgy4UAAAAAOlyqqjNiIxSNZNRF1Ntl3p5h15b"></recaptcha>
         <button [disabled]="!isValid()" (click)="login()">Login</button>
       </div>
     </div>
@@ -32,10 +30,8 @@ import { RecaptchaComponent } from 'ng2-recaptcha';
 export class LoginInputComponent implements OnInit, OnDestroy {
   @HostBinding('class') class = 'modal-visible';
   @Output() onLogin = new EventEmitter<string>();
-  @ViewChild(RecaptchaComponent) captcha: RecaptchaComponent;
   loginForm: FormGroup;
   private alive = true;
-  private human = false;
 
   @HostListener('document:keypress', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
@@ -63,22 +59,14 @@ export class LoginInputComponent implements OnInit, OnDestroy {
     this.alive = false;
   }
 
-  resolved(captchaResponse: string) {
-    console.log(captchaResponse);
-    if(captchaResponse) this.human = true;
-    else this.human = false;
-
-  }
-
   isValid() {
-    let valid = this.loginForm.valid && this.human;
+    let valid = this.loginForm.valid;
     return valid;
   }
 
   login() {
     console.log(this.loginForm.controls['email'].value, this.loginForm.controls['password'].value)
     this.store.dispatch(new data.LoginAction({username: this.loginForm.controls['email'].value, password: this.loginForm.controls['password'].value}));
-    this.captcha.reset();
     //this.newCardForm.controls['text'].setValue('');
     // this.newCardForm.reset();
   }

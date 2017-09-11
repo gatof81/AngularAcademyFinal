@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Product} from '../../models/product';
+import {User} from '../../models/user';
 
 @Component({
   selector: '[app-admin-prod-item]',
@@ -15,13 +16,14 @@ import {Product} from '../../models/product';
       </td>
       <td>
         <button (click)="edit()">edit</button>
-        <button (click)="delete()">delete</button>
+        <button *ngIf="user.userRole === 2" (click)="delete()">delete</button>
       </td>
   `,
   styles: []
 })
 export class AdminProdItemComponent implements OnInit {
   @Input() product: Product;
+  @Input() user: User;
   @Output() 'onRemove' = new EventEmitter<Product>();
   @Output() 'onEdit' = new EventEmitter<Product>();
 

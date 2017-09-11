@@ -29,6 +29,7 @@ import {User} from '../../models/user';
         <tbody>
         <tr class="text-center" app-admin-prod-item *ngFor="let product of getProductsPaged() | async"
                              [product]="product"
+                             [user]="user"
                              (onEdit)="editProduct($event)"
                              (onRemove)="deleteProduct($event)">
         </tr>
@@ -82,7 +83,6 @@ export class AdminProdListComponent implements OnInit, OnDestroy {
 
   editProduct(product) {
     this.visible = !this.visible;
-    if(product !== 'cancel')
     this.editingProduct = product;
   }
 

@@ -41,7 +41,7 @@ exports.verifyTokenAdmin = (req, res, callback) => {
         if (err) return res.status(500).send(`Something went wrong: ${err.message}`);
         User.findUserByUserName(decoded.id, decoded.username, (err, user) => {
             if (err) return res.status(500).send(`Something went wrong`);
-            else if (user.userRole === 2) {
+            else if (user.userRole === 2 || user.userRole === 1) {
                 callback(decoded);
             } else {
                 return res.status(403).send(`You need admin access for this request.`);

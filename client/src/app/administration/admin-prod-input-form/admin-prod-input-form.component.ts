@@ -14,13 +14,13 @@ import {User} from '../../models/user';
       <div class="backdrop" (click)="toggleVisible()"></div>
       <div class="modal-visible">
         <div class="form-group">
-          <div class="form-control">
+          <div class="form-control input-space">
             <input placeholder="Product name" class="form-control" name="name" [formControl]="productForm.controls['name']">
           </div>
-          <div class="form-control">
+          <div class="form-control input-space">
             <input placeholder="Product description" class="form-control" name="desc" [formControl]="productForm.controls['desc']">
           </div>
-          <div class="form-control">
+          <div class="form-control input-space">
             <input type="number" placeholder="Product price" class="form-control" name="price" [formControl]="productForm.controls['price']">
           </div>
           <button [disabled]="!isValid()" (click)="create()">Create product</button>
@@ -66,7 +66,6 @@ export class AdminProdInputFormComponent implements OnInit, OnDestroy {
 
   toggleVisible(){
     this.visible = !this.visible;
-    console.log(this.visible)
   }
 
   create() {

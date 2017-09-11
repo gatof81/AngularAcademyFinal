@@ -6,9 +6,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {ProductsComponent} from './products.component';
 import {ProductsCardComponent} from './products-card/products-card.component';
 import {ProductsListComponent} from './products-list/products-list.component';
+import {OrderCartItemComponent} from './order-cart-item/order-cart-item.component';
+import {OrderMyOrdersComponent} from './order-my-orders/order-my-orders.component';
 
 const PRODUCTS_COMPONENTS =  [
-  ProductsComponent, ProductsCardComponent, ProductsListComponent
+  ProductsComponent,
+  ProductsCardComponent,
+  ProductsListComponent,
+  OrderCartItemComponent,
+  OrderCartItemComponent,
+  OrderMyOrdersComponent
 ];
 
 @NgModule({

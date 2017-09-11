@@ -1,6 +1,8 @@
 import {Store} from '@ngrx/store';
 import * as fromRoot from './reducers'
-
+import {Injectable} from '@angular/core';
+import { Router, CanActivate, ActivatedRouteSnapshot } from '@angular/router';
+import {Observable} from 'rxjs/Observable';
 const typeCache: {[label: string]: boolean} = {};
 
 
@@ -27,4 +29,25 @@ export function requireLogged(transition) {
   //get app state
   return $state.target('login');
 };
+
+@Injectable()
+export class UserGuard implements CanActivate {
+
+  constructor(private store: Store<fromRoot.State>, private router: Router){
+
+  }
+
+  waitForUserToLoad(): Observable<boolean> {
+    return this.store.select(fromRoot.getUser)
+  }
+
+
+  canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
+    return this.waitForUserToLoad()
+     // .switchMap( () => {});
+  }
+
+
+}
+
 

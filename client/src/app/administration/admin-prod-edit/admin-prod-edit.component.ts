@@ -9,13 +9,13 @@ import {Product} from '../../models/product';
       <div class="backdrop" (click)="cancel()"></div>
       <div class="modal-visible">
         <div class="form-group">
-          <div class="form-control">
+          <div class="form-control input-space">
             <input placeholder="Product name" class="form-control" name="name" [formControl]="productEditForm.controls['name']">
           </div>
-          <div class="form-control">
+          <div class="form-control input-space">
             <input placeholder="Product description" class="form-control" name="desc" [formControl]="productEditForm.controls['desc']">
           </div>
-          <div class="form-control">
+          <div class="form-control input-space">
             <input type="number" placeholder="Product price" class="form-control" name="price" [formControl]="productEditForm.controls['price']">
           </div>
           <button [disabled]="!isValid()" (click)="editProduct()">Update</button>
