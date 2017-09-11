@@ -199,7 +199,7 @@ exports.updateUser = (req, res) => {
             User.findUserUpdate({_id: req.body._id}, userData, (err, updatedUser) => {
                 if(!err) {
                     console.log(updatedUser);
-                    let userupdate=
+                    let userupdate =
                         {   _id: updatedUser._id,
                             username: updatedUser.username,
                             billingAddress: req.body.billingAddress || updatedUser.billingAddress,

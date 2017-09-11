@@ -10,6 +10,7 @@ import {OrderCartItemComponent} from './order-cart-item/order-cart-item.componen
 import {OrderCartListComponent} from './order-cart-list/order-cart-list.component';
 import {OrderMyOrdersComponent} from './order-my-orders/order-my-orders.component';
 import { NumberPickerComponent } from '../Shared/number-picker';
+import {OrderItemComponent} from './order-item/order-item.component';
 
 
 const PRODUCTS_COMPONENTS =  [
@@ -20,7 +21,8 @@ const PRODUCTS_COMPONENTS =  [
   OrderCartItemComponent,
   OrderCartListComponent,
   OrderMyOrdersComponent,
-  NumberPickerComponent
+  NumberPickerComponent,
+  OrderItemComponent
 ];
 
 @NgModule({

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Product} from '../../models/product';
 
 @Component({
@@ -14,6 +14,7 @@ import {Product} from '../../models/product';
 })
 export class OrderCartItemComponent implements OnInit {
   @Input() product:Product;
+  @Output() onQuantity = new EventEmitter();
 
   constructor() { }
 
@@ -21,7 +22,7 @@ export class OrderCartItemComponent implements OnInit {
   }
 
   onNumberChanged(number){
-    console.log(number)
+    this.onQuantity.emit(number);
   }
 
 }

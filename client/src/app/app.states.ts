@@ -1,6 +1,5 @@
 import { Ng2StateDeclaration, UIRouter } from '@uirouter/angular';
 import { Injector } from '@angular/core';
-import { UserGuard } from './utils'
 
 /** UIRouter Config  */
 export function uiRouterConfigFn(router: UIRouter, injector: Injector) {

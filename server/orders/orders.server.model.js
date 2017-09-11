@@ -1,5 +1,5 @@
-import {Product} from "../../client/src/app/models/product";
-import {User} from "../../client/src/app/models/user";
+// import {Product} from "../../client/src/app/models/product";
+// import {User} from "../../client/src/app/models/user";
 
 const mongoose = require('mongoose'),
     Schema = mongoose.Schema,
@@ -16,14 +16,13 @@ let Order = new Schema({
         default: false
     },
     products: {
-        type: Array<Product>,
+        type: Array,
         required: true,
         default:[]
     },
     owner: {
-        type: User,
+        type: Number,
         required:true,
-        default:{}
     }
 });
 
@@ -35,7 +34,7 @@ Order.statics = {
         this.findOneAndUpdate(query, product, callback);
     },
     findOrder: function (query, callback) {
-        this.findOne(query, callback);
+        this.find(query, callback);
     },
     removeOrder: function (query, callback) {
         this.findOneAndRemove(query, callback);

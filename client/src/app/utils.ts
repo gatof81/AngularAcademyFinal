@@ -30,24 +30,24 @@ export function requireLogged(transition) {
   return $state.target('login');
 };
 
-@Injectable()
-export class UserGuard implements CanActivate {
-
-  constructor(private store: Store<fromRoot.State>, private router: Router){
-
-  }
-
-  waitForUserToLoad(): Observable<boolean> {
-    return this.store.select(fromRoot.getUser)
-  }
-
-
-  canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
-    return this.waitForUserToLoad()
-     // .switchMap( () => {});
-  }
-
-
-}
+// @Injectable()
+// export class UserGuard implements CanActivate {
+//
+//   constructor(private store: Store<fromRoot.State>, private router: Router){
+//
+//   }
+//
+//   waitForUserToLoad(): Observable<boolean> {
+//     return this.store.select(fromRoot.getUser)
+//   }
+//
+//
+//   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
+//     return this.waitForUserToLoad()
+//      // .switchMap( () => {});
+//   }
+//
+//
+// }
 
 

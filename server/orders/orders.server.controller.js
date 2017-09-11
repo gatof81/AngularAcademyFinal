@@ -4,8 +4,8 @@ const Common = require('../config/common');
 const Config = require('../config/config');
 const JWT = require('jsonwebtoken');
 const User = require('../user/user.server.model').User;
-const Product = require('./product.server.model').Product;
-const Order = require('./product.server.model').Order;
+const Product = require('../products/product.server.model').Product;
+const Order = require('./orders.server.model').Order;
 const privateKey = Config.key.privateKey;
 const async = require('async');
 
@@ -66,9 +66,10 @@ exports.getAllOrders = (req, res) => {
 exports.getAllOrdersFrom = (req, res) => {
     Common.verifyToken(req, res, user => {
         let query = {
-            owner:user
+            owner:user._id
         }
         Order.findOrder(query, (err, orders) => {
+            console.log(err, orders);
             if(!err){
                 return res.json(orders);
             } else {

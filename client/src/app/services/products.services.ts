@@ -4,13 +4,10 @@ import { trim } from 'lodash';
 import {Store} from '@ngrx/store';
 import * as fromRoot from '../reducers';
 import * as data from '../actions/products';
-import {User} from '../models/user';
 import 'rxjs/add/operator/takeWhile';
 
 @Injectable()
 export class ProductsService {
-  private user:User;
-  private alive;
 
   constructor(private http: HttpClient, private store: Store<fromRoot.State>) {
   }

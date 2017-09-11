@@ -17,6 +17,7 @@ app.use(logger('dev'));
 
 require('./server/user/user.server.routes')(app);
 require('./server/products/prodcut.server.routes')(app);
+require('./server/orders/orders.server.routes')(app);
 
 app.get('*', function (req,res) {
     res.sendFile(path.resolve('client/dist/index.html'));

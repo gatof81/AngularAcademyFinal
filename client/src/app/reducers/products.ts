@@ -1,4 +1,3 @@
-
 import { Action } from '@ngrx/store';
 import * as dataModel from '../models/data';
 import * as data from '../actions/products';

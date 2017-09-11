@@ -6,5 +6,5 @@ module.exports = function (app) {
     app.post('/api/order', Order.create);
     app.get('/api/getOrder', Order.getOrder);
     app.get('/api/getAllOrders', Order.getAllOrders);
-    app.get('/api/getAllOrdersFrom', Order.getAllOrdersFrom);
+    app.get('/api/getAllOrdersFrom/:token', Order.getAllOrdersFrom);
 }
